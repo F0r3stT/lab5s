@@ -6,18 +6,18 @@ CaveAutomata::CaveAutomata() : widthC(0), heightC(0) {}
 //если координата вне поля, то возвращает 1(стена)
 int CaveAutomata::getCellSafe(int x, int y) const {
     if (x < 0 || y < 0 || x >= widthC || y >= heightC) {
-        return 1; //пример поля - окруженные стенами
+        return 1;
     }
-    return gridMap[y * widthC + x]; //если внутри считаем индекс и возвращаем значение
+    return gridMap[y * widthC + x];
 }
 
 //подсчёт соседей стен
 int CaveAutomata::countNeighbors(int x, int y) const {
     int count = 0;
-    for (int dy = -1; dy <= 1; ++dy) { //смещение по Y
-        for (int dx = -1; dx <= 1; ++dx) { //смещение по X
+    for (int dy = -1; dy <= 1; ++dy) { 
+        for (int dx = -1; dx <= 1; ++dx) { 
             if (dx == 0 && dy == 0) 
-                continue; //пропуск самой клетки
+                continue;
             if (getCellSafe(x + dx, y + dy) == 1) 
             {
                 count++;
@@ -31,7 +31,7 @@ int CaveAutomata::countNeighbors(int x, int y) const {
 void CaveAutomata::initialize(int w, int h) {
     widthC = w; //запоминаем размер карты
     heightC = h;
-    gridMap.resize(w * h); //и меняем размер буфера
+    gridMap.resize(w * h); 
     for (auto& c : gridMap) {
         c = 0;
     }
@@ -39,7 +39,6 @@ void CaveAutomata::initialize(int w, int h) {
 
 //случайная генерация поля
 void CaveAutomata::randomize(int chancePercent) {
-//заполняем поле по проентам стен
     long long seedVal = reinterpret_cast<long long>(&chancePercent);
     std::srand(static_cast<unsigned int>(seedVal));
 
@@ -61,8 +60,8 @@ void CaveAutomata::updateSim(int birthLimit, int deathLimit) {
 
     for (int y = 0; y < heightC; ++y) {
         for (int x = 0; x < widthC; ++x) {
-            int neighbors = countNeighbors(x, y); //соседи вокруг стены
-            int currentIdx = y * widthC + x; //индекс текущей клетки
+            int neighbors = countNeighbors(x, y); 
+            int currentIdx = y * widthC + x;
             int currentState = gridMap[currentIdx]; //состояние клетки
 
             //если клетка стена
@@ -80,22 +79,21 @@ void CaveAutomata::updateSim(int birthLimit, int deathLimit) {
             }
         }
     }
-
     for (int i = 0; i < gridMap.getSize(); ++i) {
-        gridMap[i] = nextState[i]; //копируем из следующего шага в массив целых чисел
+        gridMap[i] = nextState[i]; 
     }
 }
 
 void CaveAutomata::drawWindow(sf::RenderWindow& window, float cellSize) const {
-    sf::RectangleShape shape(sf::Vector2f(cellSize, cellSize)); //прямоугольник заданного размера
-    shape.setFillColor(sf::Color::Black); //клетка стена
+    sf::RectangleShape shape(sf::Vector2f(cellSize, cellSize)); 
+    shape.setFillColor(sf::Color::Black); 
 
     int index = 0;
     for (const auto& cellValue : gridMap) {
-        if (cellValue == 1) { //стену
-            int posX = index % widthC; //столбец = остаток от деления индекса на ширину
+        if (cellValue == 1) { 
+            int posX = index % widthC; 
             int posY = index / widthC;
-            shape.setPosition(posX * cellSize, posY * cellSize); //клетка попадает в пиксельную позицию
+            shape.setPosition(posX * cellSize, posY * cellSize);
             window.draw(shape);
         }
         index++;

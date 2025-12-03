@@ -15,15 +15,14 @@ public:
     virtual ~BaseApp() {}
 
     //чисто виртуальные функции - наследник обязан их реализовать
-    virtual void setup() = 0; //один раз перед запуском цикла
-    virtual void update() = 0;//мышь клава и закрытие окна
-    virtual void render() = 0;  //отрисовка
+    virtual void setup() = 0; 
+    virtual void update() = 0;
+    virtual void render() = 0;  
     virtual void handleInput(const sf::Event& event) = 0; //обработка событий
 
     void run() {
         setup();
 
-        // Создаем окно с параметрами, которые мог изменить наследник
         window.create(sf::VideoMode(winWidth, winHeight), winTitle);
         window.setFramerateLimit(60);
 
@@ -34,14 +33,12 @@ public:
                 if (event.type == sf::Event::Closed)
                     window.close();
                 
-                // Передаем события наследнику
+                //передаем события наследнику
                 handleInput(event); 
             }
-
             update();
-
             window.clear(sf::Color::White);
-            render(); // Отрисовка конкретной сцены наследника
+            render(); //отрисовка конкретной сцены наследника
             window.display();
         }
     }

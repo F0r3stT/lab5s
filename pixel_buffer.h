@@ -9,15 +9,14 @@ private:
     int bufferSize;   
 
     PixelBuffer(const PixelBuffer&) = delete;
-    PixelBuffer& operator=(const PixelBuffer&) = delete; //запрет копирования, чобы нельзя было случаной скопировать объект
+    PixelBuffer& operator=(const PixelBuffer&) = delete; 
 
 public:
-    PixelBuffer() : dataPointer(nullptr), bufferSize(0) {} //пустой буффер в конструкторе
+    PixelBuffer() : dataPointer(nullptr), bufferSize(0) {} 
 
     ~PixelBuffer() {
         clearMemory();
     }
-    //очистка памяти, и выделения нового массива
     void resize(int newSize) {
         clearMemory();
         if (newSize > 0) {
@@ -35,18 +34,18 @@ public:
         bufferSize = 0;
     }
 
-    T& operator[](int index) {  //перегрузка оператора [] для удобного чтения,записи в массив
+    T& operator[](int index) {  
         return dataPointer[index]; 
     }
     const T& operator[](int index) const {  //только для чтения
         return dataPointer[index]; 
     }
 
-    T* begin() {  //для работы с rbf циклами
+    T* begin() {  
         return dataPointer; 
     }
     T* end() { 
-        return dataPointer + bufferSize; //элемент за концом массива
+        return dataPointer + bufferSize; 
     }
     const T* begin() const { 
         return dataPointer; 

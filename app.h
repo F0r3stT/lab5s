@@ -21,8 +21,8 @@ public:
     CaveApp();
 
     void setup() override;          
-    void update() override;         //общая логика
-    void render() override;         // Отрисовка пещеры и кнопок
+    void update() override;         
+    void render() override;        
     void handleInput(const sf::Event& event) override; // Обработка кликов
 };
 

@@ -6,7 +6,7 @@ using namespace std;
 CaveApp::CaveApp() : simWidth(0), simHeight(0), birthRule(0), deathRule(0), startChance(0), cellSize(20.0f) {
     winTitle = "Генератор Пещер";
 
-    // Настройка кнопки
+    //настройка кнопки
     btnNext.setSize(sf::Vector2f(140.0f, 40.0f));
     btnNext.setFillColor(sf::Color(50, 50, 50));
     btnNext.setOutlineColor(sf::Color::White);
@@ -38,14 +38,12 @@ void CaveApp::setup() {
 
     caveSystem.initialize(simWidth, simHeight);
     
-    caveSystem.randomize(startChance); //заполняет поле случайным стартовым состоянием
+    caveSystem.randomize(startChance); 
 
-    // Рассчитываем размер окна под введенные параметры
     if (simWidth * cellSize > 1200) 
-    //если ширина поля больше 1200, уменьшаем размер клетки
         cellSize = 1200.0f / simWidth;
 
-    int w = static_cast<int>(simWidth * cellSize); //размер областей где сама пещера рисуется
+    int w = static_cast<int>(simWidth * cellSize); 
     int h = static_cast<int>(simHeight * cellSize);
     
     if (w < 300) 
@@ -53,21 +51,18 @@ void CaveApp::setup() {
     if (h < 300) 
         h = 300;
 
-    //установка защищенных переменных родительского класса BaseApp
     this->winWidth = w;
-    this->winHeight = h + 60; // место под кнопку
+    this->winHeight = h + 60; 
 
     //позиция кнопки по центру внизу
     btnNext.setPosition((w - 140.0f) / 2.0f, h + 10.0f);
 }
 
 void CaveApp::handleInput(const sf::Event& appEvent) {
-    if (appEvent.type == sf::Event::MouseButtonPressed) { //левая кнопка мишы
+    if (appEvent.type == sf::Event::MouseButtonPressed) { 
         if (appEvent.mouseButton.button == sf::Mouse::Left) {
-            //считаем позицию курсора в коррдинатах
             sf::Vector2f mPos((float)appEvent.mouseButton.x, (float)appEvent.mouseButton.y);
             
-            //проверка нажатия на кнопку
             if (btnNext.getGlobalBounds().contains(mPos)) {
                 caveSystem.updateSim(birthRule, deathRule); //обновляем шаг при помощи заданных параметров рождения
                 cout << "Симуляция обновлена" << endl;
